@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | BloomTasks{% endblock %}
+
+{% block content %}
+
+<div class="admin-page">
+
+    <div class="admin-header">
+
+        <div>
+
+            <p>
+                DEVELOPER CONTROL CENTER
+            </p>
+
+            <h1>
+                Admin Dashboard 🛡️
+            </h1>
+
+        </div>
+
+        <span>
+            Secure Management
+        </span>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <span>👥</span>
+            <strong>{{ total_users }}</strong>
+            <p>Total Users</p>
+        </div>
+
+        <div class="stat-card">
+            <span>📝</span>
+            <strong>{{ total_tasks }}</strong>
+            <p>Total Tasks</p>
+        </div>
+
+        <div class="stat-card completed-stat">
+            <span>✅</span>
+            <strong>{{ completed_tasks }}</strong>
+            <p>Completed Tasks</p>
+        </div>
+
+        <div class="stat-card pending-stat">
+            <span>⏳</span>
+            <strong>{{ pending_tasks }}</strong>
+            <p>Pending Tasks</p>
+        </div>
+
+    </div>
+
+
+    <div class="admin-section">
+
+        <h2>
+            Registered Users
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Joined</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>
+                            {{ user.id }}
+                        </td>
+
+                        <td>
+                            {{ user.username }}
+                        </td>
+
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+                        <td>
+
+                            {% if user.is_admin %}
+
+                            <span class="admin-badge">
+                                Admin
+                            </span>
+
+                            {% else %}
+
+                            <span class="user-badge">
+                                User
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ user.created_at.strftime('%d-%m-%Y') }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <p class="security-note">
+            🔐 Passwords are securely hashed and are never displayed to administrators.
+        </p>
+
+    </div>
+
+
+    <div class="admin-section">
+
+        <h2>
+            All User Tasks
+        </h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+                        <th>Task</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for task in tasks %}
+
+                    <tr>
+
+                        <td>
+                            {{ task.owner.username }}
+                        </td>
+
+                        <td>
+                            {{ task.title }}
+                        </td>
+
+                        <td>
+                            {{ task.priority }}
+                        </td>
+
+                        <td>
+
+                            {% if task.status == "completed" %}
+
+                            <span class="completed-badge">
+                                Completed
+                            </span>
+
+                            {% else %}
+
+                            <span class="pending-badge">
+                                Pending
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ task.created_at.strftime('%d-%m-%Y') }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

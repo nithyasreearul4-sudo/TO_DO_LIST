@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Add Task | BloomTasks{% endblock %}
+
+{% block content %}
+
+<div class="add-task-page">
+
+    <div class="task-banner">
+
+        <div>
+
+            <p>
+                PLAN • FOCUS • ACHIEVE
+            </p>
+
+            <h1>
+                Add New Task 🌸
+            </h1>
+
+            <span>
+                Plan it. Do it. Complete it.
+            </span>
+
+        </div>
+
+        <div class="banner-emoji">
+            ☕🌷
+        </div>
+
+    </div>
+
+
+    <div class="task-form-card">
+
+        <form
+            method="POST"
+            action="{{ url_for('add_task') }}"
+        >
+
+            <label>
+                Task Title
+            </label>
+
+            <input
+                type="text"
+                name="title"
+                placeholder="What needs to be done?"
+                required
+            >
+
+
+            <label>
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                placeholder="Add some details about your task..."
+            ></textarea>
+
+
+            <div class="two-column">
+
+                <div>
+
+                    <label>
+                        Priority
+                    </label>
+
+                    <select name="priority">
+
+                        <option value="Low">
+                            Low
+                        </option>
+
+                        <option value="Medium" selected>
+                            Medium
+                        </option>
+
+                        <option value="High">
+                            High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Due Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="due_date"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                ⏱ Add Task
+            </button>
+
+        </form>
+
+
+        <div class="task-tip">
+            A goal without a plan is just a wish. 🌸
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

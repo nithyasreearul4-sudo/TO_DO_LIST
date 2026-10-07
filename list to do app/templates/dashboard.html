@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | BloomTasks{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <section class="hero">
+
+        <div>
+
+            <p class="small-heading">
+                TODAY'S MOTIVATION 🌸
+            </p>
+
+            <h1>
+                Good Morning, {{ username }}!
+            </h1>
+
+            <p>
+                Stay positive, work hard and make it happen.
+            </p>
+
+        </div>
+
+        <div class="hero-emoji">
+            🌷
+        </div>
+
+    </section>
+
+
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>📝</span>
+
+            <strong>
+                {{ total_tasks }}
+            </strong>
+
+            <p>
+                Total Tasks
+            </p>
+
+        </div>
+
+
+        <div class="stat-card completed-stat">
+
+            <span>✅</span>
+
+            <strong>
+                {{ completed_tasks }}
+            </strong>
+
+            <p>
+                Completed
+            </p>
+
+        </div>
+
+
+        <div class="stat-card pending-stat">
+
+            <span>⏳</span>
+
+            <strong>
+                {{ pending_tasks }}
+            </strong>
+
+            <p>
+                Pending
+            </p>
+
+        </div>
+
+
+        <div class="stat-card progress-stat">
+
+            <span>🌟</span>
+
+            <strong>
+                {{ progress }}%
+            </strong>
+
+            <p>
+                Progress
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="content-grid">
+
+        <div class="tasks-section">
+
+            <div class="section-title">
+
+                <div>
+
+                    <h2>
+                        Today's Tasks
+                    </h2>
+
+                    <p>
+                        One task at a time. You've got this! 💗
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ url_for('add_task') }}"
+                    class="add-task-btn"
+                >
+                    + Add Task
+                </a>
+
+            </div>
+
+
+            {% if tasks %}
+
+            <div class="task-list">
+
+                {% for task in tasks %}
+
+                <div class="task-item">
+
+                    <div class="task-check">
+
+                        {% if task.status == "completed" %}
+
+                        <span class="check-circle done">
+                            ✓
+                        </span>
+
+                        {% else %}
+
+                        <a
+                            href="{{ url_for('complete_task', task_id=task.id) }}"
+                            class="check-circle"
+                            title="Complete task"
+                        >
+                            ✓
+                        </a>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="task-details">
+
+                        <h3 class="{% if task.status == 'completed' %}task-completed{% endif %}">
+                            {{ task.title }}
+                        </h3>
+
+                        {% if task.description %}
+
+                        <p>
+                            {{ task.description }}
+                        </p>
+
+                        {% endif %}
+
+                        <div class="task-meta">
+
+                            <span class="priority {{ task.priority|lower }}">
+                                {{ task.priority }}
+                            </span>
+
+                            {% if task.due_date %}
+
+                            <span>
+                                📅 {{ task.due_date }}
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('delete_task', task_id=task.id) }}"
+                        class="delete-task"
+                        onclick="return confirm('Delete this task?')"
+                    >
+                        🗑️
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div>
+                    🌸
+                </div>
+
+                <h2>
+                    Your day is waiting!
+                </h2>
+
+                <p>
+                    Add your first task and start making progress.
+                </p>
+
+                <a
+                    href="{{ url_for('add_task') }}"
+                    class="add-task-btn"
+                >
+                    Create My First Task
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <aside class="motivation-column">
+
+            <div class="quote-card">
+
+                <span class="quote-icon">
+                    “
+                </span>
+
+                <p>
+                    {{ daily_quote }}
+                </p>
+
+                <small>
+                    — Your Daily Motivation 🌷
+                </small>
+
+            </div>
+
+
+            <div class="peace-card">
+
+                <div>
+                    🌿
+                </div>
+
+                <h3>
+                    Keep Going!
+                </h3>
+
+                <p>
+                    A peaceful life is built one
+                    completed task at a time.
+                </p>
+
+            </div>
+
+
+            <div class="progress-card">
+
+                <h3>
+                    Your Progress
+                </h3>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        data-progress="{{ progress }}"
+                    ></div>
+
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const progressFill = document.querySelector('.progress-fill');
+                        if (progressFill) {
+                            progressFill.style.width = progressFill.dataset.progress + '%';
+                        }
+                    });
+                </script>
+
+                <p>
+                    {{ completed_tasks }} of
+                    {{ total_tasks }} tasks completed
+                </p>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</div>
+
+
+{% if completed_quote %}
+
+<div
+    class="completion-modal"
+    id="completionModal"
+>
+
+    <div class="completion-box">
+
+        <button
+            class="modal-close"
+            onclick="closeCompletionModal()"
+        >
+            ×
+        </button>
+
+        <div class="celebration">
+            🎉
+        </div>
+
+        <h2>
+            Great Job, {{ username }}! 🌸
+        </h2>
+
+        <p class="completed-message">
+            You just completed a task!
+        </p>
+
+        <div class="popup-quote">
+            “{{ completed_quote }}”
+        </div>
+
+        <p>
+            Keep that momentum going.
+            Your remaining tasks are waiting for you! 💪
+        </p>
+
+        <button
+            class="primary-btn"
+            onclick="closeCompletionModal()"
+        >
+            Awesome! Let's Continue 💗
+        </button>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

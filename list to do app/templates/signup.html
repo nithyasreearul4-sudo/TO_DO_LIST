@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account | BloomTasks{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-image signup-image">
+
+        <div class="image-overlay">
+
+            <h1>
+                Take the first step today. 💗
+            </h1>
+
+            <p>
+                Your future self will thank you
+                for the progress you make today.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        <div class="flower-icon">
+            🌷
+        </div>
+
+        <h1>
+            Create Account
+        </h1>
+
+        <p class="auth-subtitle">
+            Let's start your productive journey!
+        </p>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('signup') }}"
+        >
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter your full name"
+                required
+            >
+
+
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create a password"
+                minlength="6"
+                required
+            >
+
+
+            <label>Confirm Password</label>
+
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm your password"
+                minlength="6"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                Sign Up 🌸
+            </button>
+
+        </form>
+
+
+        <p class="auth-bottom">
+
+            Already have an account?
+
+            <a href="{{ url_for('login') }}">
+                Login
+            </a>
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
